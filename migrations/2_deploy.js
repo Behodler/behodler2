@@ -7,7 +7,9 @@ const ABDK = artifacts.require('ABDK')
 const MockSwapFactory = artifacts.require('MockSwapFactory')
 const WETH10 = artifacts.require('WETH10')
 const redis = require('redis')
-const client = redis.createClient();
+const client = redis.createClient({
+    port: 9019
+});
 client.on('error', console.log)
 const weth10Location = './weth10.txt'
 const fs = require('fs')
@@ -26,7 +28,7 @@ module.exports = async function (deployer, network, accounts) {
 
     await deployer.deploy(LiquidityReceiver, lachesisInstance.address)
     liquidityReceiverInstance = await LiquidityReceiver.deployed();
-    client.set('liquidityReceiver', liquidityReceiverInstance.address)
+    // client.set('liquidityReceiver', liquidityReceiverInstance.address)
     await deployer.deploy(AddressBalanceCheck)
     await deployer.link(AddressBalanceCheck, Behodler)
 
@@ -42,7 +44,7 @@ module.exports = async function (deployer, network, accounts) {
     var wethAddress = getWeth(tokens)
     await deployer.deploy(WETH10)
     const weth10Instance = await WETH10.deployed()
-    client.set('WETH10', weth10Instance.address)
+    // client.set('WETH10', weth10Instance.address)
     fs.writeFileSync(weth10Location, weth10Instance.address)
     await behodlerInstance.configureScarcity(110, 25, accounts[0])
 
@@ -53,8 +55,8 @@ module.exports = async function (deployer, network, accounts) {
         weiDaiStuff.inertReserve,
         weiDaiStuff.dai,
         weiDaiStuff.weiDai)
-    client.set('behodler2', behodlerInstance.address)
-    client.set('lachesis2', lachesisInstance.address)
+    // client.set('behodler2', behodlerInstance.address)
+    // client.set('lachesis2', lachesisInstance.address)
     client.quit()
 
     const addresses = {
