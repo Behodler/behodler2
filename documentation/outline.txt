@@ -1,0 +1,35 @@
+What is Behodler
+    -state problem with token pairs 
+Brief advantages of Behodler 
+    - low gas 
+    - limitless direct composition (no routing, no size restrictions)
+    - impermanent loss (opportunity cost) declines
+breakdown of parts (bonding curves, lachesis, SCX, pyrotokens)
+    - mathematically derive bonding curves
+Philosophy of Behodler 
+    - impermanent loss strategies: more tokens, fees, liquidity mining
+    - capture MEV mention SCX automining
+    - Pyrotokens and burning 
+    - contrast with liquidity volume incentives of other AMMs
+Understanding SCX in more detail 
+    - marginal price management implications: volatility etc
+    - contrasted with LP tokens.
+    - residual liquidity, burning and lower bound group loss (figure out term for Behodler's impermanent loss)
+    - modern portfolio theory (https://youtu.be/T7z4yVOEsB8) suggests volatility and return imply diversify assets. No way to know in advance.
+Design tradeoffs
+    - weird bonding curves and AVB/TVB
+    - all in one contract -> governance required
+    - fixes to allow for post governance token addition
+Ecosystem expansion with reference to tradeoffs and philosophy (limbo and beyond)
+    - Flan compliment to SCX
+    - Limbo possible use cases:
+        - migration
+        - initial token launch
+        - regular staking
+        - stake and burn.
+    - Bonfire and residual liquidity
+Governance 
+    - Morgoth Philosophy with LimboDAO as first implementation
+
+
+
