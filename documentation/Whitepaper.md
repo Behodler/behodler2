@@ -34,7 +34,7 @@ Finally, Pyrotokens play an important part is promoting automining of SCX. Recal
 In response to the misallocation of liquidity pricing in the broader Ethereum ecosystem, many AMMs have sought to double down on the oversupply of stablecoin liquidity by offering improved returns for correlated token liquidity provision. Uniswap V3's concentrated liquidity and Curve's bounded curvature of swaps are such examples. Behodler, by contrast, seeks to correct the pricing of liquidity in DeFi so that the allocation of capital is closer to the economic optimum. Understanding how this is achieved requires a deeper understanding into the nature of liquidity while paying careful attention to how Behodler relates to this. The first part of this section justifies the choice of bonding curve algorithm employed by Behodler, after which a theory on liquidity markets is posited. It concludes by explaining how Behodler acts as a true market for liquidity pricing at the margin.
 
 ## Pricing in SCX
-Consider a fictional version of Behodler with only two tokens listed, Dai and Eth. Assume also that the price of Eth on the open market is 2000 Dai. Suppose we add 1 unit of Dai which mints 10000 units of Scarcity (SCX) and that the next unit of Dai mints 9999 units of Scarcity. This implies that the first unit of SCX costs (1/10000=) 0.0001 Dai while the second costs (1/9999=)0.00010001 Dai and the third costs 0.00010002. Conversely, if there are 10 units of Dai in Behodler already (which implies the next unit of Scarcity costs 0.0001001 Dai) then we can redeem Dai by sending SCX back into Behodler. The previous unit of SCX costs 1/9991 Dai or 0.00010009 Dai. So with 1 unit of SCX we can redeem 0.00010009 Dai. The nature of Behodler is such that the supply curve of Scarcity is the same for all tokens. Behodler has no notion of relative token values so the first unit of Eth in this example will also create 10000 SCX. If the number of units of Eth and Dai stored in Behodler are the same, this implies the SCX price of both is equal. This position is unstable since a trader can provide 1 unit of Dai, receive some SCX and then redeem 1 unit of Eth with that SCX, implying a trade of 1 Eth for 1 Dai. In a situation like this, traders will keep adding Dai to Behodler in order to redeem Eth. As the levels of Dai rise, the SCX price of Dai will rise. That is, the amount of SCX that each additional unit of Dai can generate will fall. Similarly, as Eth is withdrawn, the amount of SCX that additional units of Eth can generate will rise. The result will be a gradual slipping of relative price between Dai and Eth until their relative prices reflect their true prices.
+Consider a fictional version of Behodler with only two tokens listed, DAI and Eth. Assume also that the price of Eth on the open market is 2000 DAI. Suppose we add 1 unit of DAI which mints 10000 units of Scarcity (SCX) and that the next unit of DAI mints 9999 units of Scarcity. This implies that the first unit of SCX costs (1/10000=) 0.0001 DAI while the second costs (1/9999=)0.00010001 DAI and the third costs 0.00010002. Conversely, if there are 10 units of DAI in Behodler already (which implies the next unit of Scarcity costs 0.0001001 DAI) then we can redeem DAI by sending SCX back into Behodler. The previous unit of SCX costs 1/9991 DAI or 0.00010009 DAI. So with 1 unit of SCX we can redeem 0.00010009 DAI. The nature of Behodler is such that the supply curve of Scarcity is the same for all tokens. Behodler has no notion of relative token values so the first unit of Eth in this example will also create 10000 SCX. If the number of units of Eth and DAI stored in Behodler are the same, this implies the SCX price of both is equal. This position is unstable since a trader can provide 1 unit of DAI, receive some SCX and then redeem 1 unit of Eth with that SCX, implying a trade of 1 Eth for 1 DAI. In a situation like this, traders will keep adding DAI to Behodler in order to redeem Eth. As the levels of DAI rise, the SCX price of DAI will rise. That is, the amount of SCX that each additional unit of DAI can generate will fall. Similarly, as Eth is withdrawn, the amount of SCX that additional units of Eth can generate will rise. The result will be a gradual slipping of relative price between DAI and Eth until their relative prices reflect their true prices.
 
 
 ### Choosing the best bonding curve formula
@@ -87,12 +87,12 @@ $$
  \frac{P_{SCX_{T}}}{P_{SCX_{U}}} = \frac{\sqrt{U}}{\sqrt{T}}    \tag{4}
 $$
 
-To build an intuition, let's assume that T and U represent real world tokens. At the time of writing, Maker (MKR) was trading at just below $3000. Suppose we wish to create a linear Behodler that trades MKR for Dai and we wish to preseed the AMM with the right levels of liquidity such that at the margin, 1 MKR trades for 3000 Dai. Equation 4 becomes:
+To build an intuition, let's assume that T and U represent real world tokens. At the time of writing, Maker (MKR) was trading at just below $3000. Suppose we wish to create a linear Behodler that trades MKR for DAI and we wish to preseed the AMM with the right levels of liquidity such that at the margin, 1 MKR trades for 3000 DAI. Equation 4 becomes:
 $$
  3000 = \frac{\sqrt{U}}{\sqrt{T}}  
 $$
 
-where T is Mkr and U is Dai. Let's add an initial Dai liquidity of 10000. This means
+where T is Mkr and U is DAI. Let's add an initial DAI liquidity of 10000. This means
 $$
  3000 = \frac{\sqrt{10000}}{\sqrt{T}}  
 $$
@@ -106,7 +106,7 @@ $$
  T = 0.001111  
 $$
 
-In order to trade Mkr for Dai at 3000:1, a linear Behodler with 10000 Dai liquidity requires 0.001111 MKR. Suppose we wish to instead preseed linear Behodler with 1600 MKR. The dai required would be:
+In order to trade Mkr for DAI at 3000:1, a linear Behodler with 10000 DAI liquidity requires 0.001111 MKR. Suppose we wish to instead preseed linear Behodler with 1600 MKR. The DAI required would be:
 $$
  3000 = \frac{\sqrt{U}}{\sqrt{1600}}  
 $$
@@ -117,7 +117,7 @@ $$
  \implies U = 14400000000
 $$
 
-Preseeding linear Behodler with 1600 MKR requires we preseed the Dai reserve with over 14 billion Dai... which is more than the total supply of Dai.
+Preseeding linear Behodler with 1600 MKR requires we preseed the DAI reserve with over 14 billion DAI... which is more than the total supply of DAI.
 This is what is meant by scalability. Depending on the bonding curve formula chosen, maintaining correct pricing becomes impossible between tokens of largely different values at high levels of liquidity. Linear Behodler is therefore only suitable for trade in stablecoins pegged to the same currency of tokens based on the same asset such as Weth and Seth. We wish Behodler to be applicable to all token classes and so require a bonding curve formula that can accommodate divergent prices between tokens.
 
 Returning to equation 1 which calculates the T required for a given level of SCX, let's instead change it to an exponential function:
@@ -136,7 +136,7 @@ For two tokens, T and U, the relative prices are then:
 $$
  \frac{P_{SCX_{T}}}{P_{SCX_{U}}} = U/T
 $$
-Returning to the example of Mkr and Dai, for 10000 Dai, we have
+Returning to the example of Mkr and DAI, for 10000 DAI, we have
 $$
  3000 = 10000/T
 $$
@@ -147,7 +147,7 @@ Note that the ratio of prices is the same as the ratio of liquidity levels. This
 $$
  3000 = U/1600 \implies U = 4800000
 $$
-At 1600 Mkr, we require 4800000 Dai which is 1:3000. The logarithmic production of SCX is therefore scalable to all levels of liquidity.
+At 1600 Mkr, we require 4800000 DAI which is 1:3000. The logarithmic production of SCX is therefore scalable to all levels of liquidity.
 
 ### Deriving Behodler's Swap Equation
 ```
@@ -235,7 +235,7 @@ The existence of such a proxy business suggests that a direct market either does
 To some extent, liquidity mining plays the role of proxy market for missing liquidity market. Because there is no direct incentive to bridge demand for liquidity with supply on traditional AMMs, a boom in liquidity mining has taken off which is a strong indicator that most token markets are under-liquid. In support of the stablecoin over provision hypothesis, yield farms more often than not offer incentives for pairing their token with stablecoins in an effort to draw in the abundant liquidity found in stablecoin pools.
 
 ### A Caveat on Using Liquidity Mining as Evidence for the Missing Market Hypothesis
-It should be noted that the sole purpose of liquidity mining isn't simply to bridge the gap between supply and demand. Recall that AMMs are characterized by network externalities which means that subsidizing bootstrapping yields disproportionate returns. Where we see an undersupply of liquidity in the wild is when a viable, popular a project has protocol token in high demand and yet has to provide additional incentives to pool their protocol token, despite the fact that it is in high demand on AMMs suggests that a price clearing mechanism is missing.
+It should be noted that the sole purpose of liquidity mining isn't simply to bridge the gap between supply and demand. Recall that AMMs are characterized by network externalities which means that subsidizing bootstrapping yields disproportionate returns. Where we see an undersupply of liquidity in the wild is when a viable, popular project has protocol token in high demand and yet has to provide additional incentives to pool their protocol token, despite the fact that it is in high demand on AMMs suggests that a price clearing mechanism is missing.
 
 ## Behodler is the missing market for liquidity
 Since Scarcity is liquidity priced at the margin, it offers liquidity providers an incentive to match market demand for liquidity. The increasing value of SCX with respect to token reserves reflects the positive network externality of liquidity provision. Markets characterized by positive externalities exhibit increasing returns to subsidization, even if those markets clear at the margin. For instance, private markets for education such as fee based universities clear demand and supply but this doesn't mean that the current market equilibrium is necessarily the most beneficial for society. The existence of private bursaries is evidence that targeted subsidization of higher education yields a disproportionate benefit to society.
@@ -312,7 +312,7 @@ Behodler offers a route for composing complex DeFi strategies at a gas cost less
 
 2. **Low Gas AMM**: Wrapping and unwrapping LP tokens can be fairly gas intensive since there are multiple transfers between external contracts as well as state updates occurring. Swapping LP tokens is no more expensive than swapping a regular ERC20 token. By providing a low cost AMM, traders wishing to exit an LP position for one token such as Eth can perform a simple swap out of their LP on Behodler. Behodler therefore offers a generalizable zap function for any DeFi strategy. By tokenizing strategies and listing them on Behodler, both users and third party dapps can enter and exit popular DeFi yield strategies, while not expending any more gas than a regular swap. Indeed, there is no limit to the customizability of strategies so that even third party compositional dapps can list on Behodler and benefit from receiving immediate liquidity equal in value to the prevailing AVB.
 
-3. **Pyrotoken stacking**: LP tokens cannot be infinitely composed on Uniswap and Sushiswap but being able to do so may unlock exotic properties that allow fund managers to produce products similar to Balancer. Pyrotokens offer a bridge to allow infinite protocol stacking by adding a burnable scaffold between each layer. For instance, suppose Behodler lists the popular USDT/USDC LP pair from Sushiswap. This will automatically provide PyroUSDT/USDC for minting which, by definition, will have a better return than USDT/USDC. Next, a third party dapp stakes USDT/USDC on Sushi's Onsen to receive a yield in Sushi. They then tokenize this position, creating ODollar, a tradeable tokenized version of USDT/USDC staked on Onsen which has its Sushi revenue autocompounded regularly. We then create an LP token of ODollar and PyroUSDC/USDT and list it on Behodler. For simplicity, we refer to this LP token as LP_2. Now that LP_2 is tradeable on Behodler, it automatically unlocks PyroLP_2. We pair PyroLP_2 with WeiDai on Sushi and from that, create a new LP token, LP_3. LP_3 is then listed on Behodler which unlocks PyroLP_3. This process of stacking yield through the intermediary of Pyrotokens is unlimited and since tradeable tokens on Behodler enjoy the AVB of liquidity, there's a certain volume of trade that each layer will necessarily enjoy due to price drift, ensuring that each layer of Pyrotokens in the stack contributes to the overall yield. Pyrotokens therefore play a central role in positioning Behodler as a market for yield instruments on Ethereum.
+3. **Pyrotoken stacking**: LP tokens cannot be infinitely composed on Uniswap and Sushiswap but being able to do so may unlock exotic properties that allow fund managers to produce products similar to Balancer. Pyrotokens offer a bridge to allow infinite protocol stacking by adding a burnable scaffold between each layer. For instance, suppose Behodler lists the popular USDT/USDC LP pair from Sushiswap. This will automatically provide PyroUSDT/USDC for minting which, by definition, will have a better return than USDT/USDC. Next, a third party dapp stakes USDT/USDC on Sushi's Onsen to receive a yield in Sushi. They then tokenize this position, creating ODollar, a tradeable tokenized version of USDT/USDC staked on Onsen which has its Sushi revenue autocompounded regularly. We then create an LP token of ODollar and PyroUSDC/USDT and list it on Behodler. For simplicity, we refer to this LP token as LP_2. Now that LP_2 is tradeable on Behodler, it automatically unlocks PyroLP_2. We pair PyroLP_2 with WeiDAI on Sushi and from that, create a new LP token, LP_3. LP_3 is then listed on Behodler which unlocks PyroLP_3. This process of stacking yield through the intermediary of Pyrotokens is unlimited and since tradeable tokens on Behodler enjoy the AVB of liquidity, there's a certain volume of trade that each layer will necessarily enjoy due to price drift, ensuring that each layer of Pyrotokens in the stack contributes to the overall yield. Pyrotokens therefore play a central role in positioning Behodler as a market for yield instruments on Ethereum.
 
 # Governance
 Complete explanations for governance and of the broader ecosystem of Behodler (such as Limbo) are beyond the scope of this paper. However, to the extent that there are cross cutting issues, these will be touched upon. A capped supply, burnable governance token, EYE, exists for Behodler which will continue to grow in prominence as the ecosystem unfolds. 
