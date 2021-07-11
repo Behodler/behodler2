@@ -184,7 +184,7 @@ uint liquidity = balanceOf[address(this)];
 bool feeOn = _mintFee(_reserve0, _reserve1);
 uint _totalSupply = totalSupply;
 
-//balanace0 and balance1 are the underlying token balances[comment added by Justin Goro]
+//balance0 and balance1 are the underlying token balances[comment added by Justin Goro]
 // using balances ensures pro-rata distribution
 amount0 = liquidity.mul(balance0) / _totalSupply;
 amount1 = liquidity.mul(balance1) / _totalSupply;
