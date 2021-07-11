@@ -1,1 +1,1 @@
-docker run --rm --volume "`pwd`:/data" --user `id -u`:`id -g` pandoc/latex --wrap=preserve --citeproc --bibliography=whitepaper.bib  Whitepaper.md -o behodler_whitepaper.pdf
+docker run --rm --volume "`pwd`:/data" --user `id -u`:`id -g` pandoc/latex --wrap=preserve   Whitepaper.md -o behodler_whitepaper.pdf
