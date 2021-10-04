@@ -61,8 +61,8 @@ contract PyroWeth10Proxy is Ownable, PyroTokenLike {
         returns (uint256)
     {
         uint256 pyroTokenRedeemRate = PyroTokenLike(baseToken).redeemRate();
-        uint256 mintedPyroTokens = (baseTokenAmount * pyroTokenRedeemRate) /
-            (ONE);
+        uint256 mintedPyroTokens = (baseTokenAmount * ONE) /
+            (pyroTokenRedeemRate);
         return (mintedPyroTokens * 999) / 1000; //0.1% fee
     }
 
