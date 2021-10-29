@@ -88,7 +88,7 @@ describe("Behodler1", async function () {
     assert.equal(pyroBalance, "29970");
   });
 
-  it("redeeming chargine a 1% fee", async function () {
+  it("redeeming charges a 1% fee", async function () {
     await this.pyroWeth10Proxy.mint(16000, { from: owner, value: 16000 });
     const pyroBalance = await this.pyroWeth10.balanceOf(owner);
     console.log("pyro Balance " + pyroBalance);

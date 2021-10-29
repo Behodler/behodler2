@@ -9,6 +9,14 @@ contract PyroWeth10Proxy is Ownable, PyroTokenLike {
     // address public baseToken;
     IWETH10 public weth10;
     uint256 constant ONE = 1e18;
+    bool unlocked = true;
+
+    modifier reentrancyGuard() {
+        require(unlocked, "PyroProxy: reentrancy guard active");
+        unlocked = false;
+        _;
+        unlocked = true;
+    }
 
     constructor(address pyroWeth) {
         baseToken = pyroWeth;
@@ -23,6 +31,7 @@ contract PyroWeth10Proxy is Ownable, PyroTokenLike {
     function redeem(uint256 pyroTokenAmount)
         external
         override
+        reentrancyGuard
         returns (uint256)
     {
         IERC20(baseToken).transferFrom(
@@ -41,6 +50,7 @@ contract PyroWeth10Proxy is Ownable, PyroTokenLike {
         external
         payable
         override
+        reentrancyGuard
         returns (uint256)
     {
         require(
